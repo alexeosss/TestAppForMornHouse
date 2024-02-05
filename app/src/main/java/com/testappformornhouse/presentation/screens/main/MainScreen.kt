@@ -11,6 +11,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,9 +23,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.testappformornhouse.R
 import com.testappformornhouse.presentation.components.ButtonComponent
+import com.testappformornhouse.presentation.navigation.NavigationTree
 
 @Composable
 fun MainScreen(navController: NavHostController, vm: MainViewModel = hiltViewModel()) {
+
+    val uiState by vm.uiState.collectAsState()
 
     val pattern = remember { Regex("^\\d+\$") }
 
@@ -36,12 +41,10 @@ fun MainScreen(navController: NavHostController, vm: MainViewModel = hiltViewMod
             verticalArrangement = Arrangement.SpaceAround
         ) {
             TextField(
-                value = "12",
+                value = uiState.number,
                 onValueChange = {
                     if (it.isEmpty() || it.matches(pattern)) {
-                        if (it.length <= 5){
-//                            obtainEvent(MultiplayerEvent.OnCodeChange(it))
-                        }
+                       vm.obtainEvent(MainEvent.ChangeNumber(it))
                     }
                 },
                 modifier = Modifier.size(200.dp, 60.dp),
@@ -55,13 +58,15 @@ fun MainScreen(navController: NavHostController, vm: MainViewModel = hiltViewMod
                 singleLine = true
             )
             ButtonComponent(modifier = Modifier, text = stringResource(id = R.string.get_fact)) {
-
+                if (uiState.number.isNotEmpty()){
+                    navController.navigate(NavigationTree.FactScreen.name + "/${uiState.number}")
+                }
             }
             ButtonComponent(
                 modifier = Modifier.clickable { },
                 text = stringResource(id = R.string.get_fact_random)
             ) {
-
+                navController.navigate(NavigationTree.FactScreen.name + "/null")
             }
         }
         Column(modifier = Modifier

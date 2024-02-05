@@ -20,7 +20,7 @@ fun Navigation() {
         composable(NavigationTree.MainScreen.name) {
             MainScreen(navController)
         }
-        composable(NavigationTree.FactScreen.name) {
+        composable(NavigationTree.FactScreen.name + "/{numberFromScreen}") {
             FastScreen(navController)
         }
 
