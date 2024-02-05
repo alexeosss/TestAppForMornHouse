@@ -1,4 +1,4 @@
-package com.testappformornhouse.ui.theme
+package com.testappformornhouse.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

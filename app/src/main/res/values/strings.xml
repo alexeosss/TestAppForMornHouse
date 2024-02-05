@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TestAppForMornHouse</string>
+    <string name="get_fact">Отримати факт</string>
+    <string name="get_fact_random">Отримати факт про випадкове число</string>
 </resources>
